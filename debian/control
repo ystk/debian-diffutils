@@ -2,13 +2,15 @@ Source: diffutils
 Section: utils
 Priority: required
 Maintainer: Santiago Vila <sanvila@debian.org>
-Standards-Version: 3.8.4
+Build-Depends: debhelper (>= 9), texi2html (>= 1.82)
+Standards-Version: 3.9.3
 Homepage: http://www.gnu.org/software/diffutils/
 
 Package: diffutils
 Essential: yes
 Architecture: any
 Pre-Depends: ${shlibs:Depends}
+Depends: ${misc:Depends}
 Replaces: diff
 Suggests: diffutils-doc, wdiff
 Description: File comparison utilities
@@ -26,11 +28,10 @@ Description: File comparison utilities
  to the complete files.  Given `diff' output, the `patch' program can
  update, or "patch", a copy of the file.
 
-Package: diff
-Section: oldlibs
-Priority: extra
+Package: diffutils-doc
+Section: doc
+Priority: optional
 Architecture: all
-Pre-Depends: diffutils
-Description: dummy transitional package for diff -> diffutils
- This is a dummy package to aid in transitioning from diff to diffutils.
- It may be safely removed after upgrading to squeeze.
+Depends: ${misc:Depends}
+Description: Documentation for GNU diffutils in HTML format
+ This package contains the HTML documentation for GNU diffutils.

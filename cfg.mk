@@ -1,5 +1,5 @@
 # Customize maint.mk                           -*- makefile -*-
-# Copyright (C) 2003-2010 Free Software Foundation, Inc.
+# Copyright (C) 2003-2011 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ bootstrap-tools = autoconf,automake,gnulib
 # Now that we have better tests, make this the default.
 export VERBOSE = yes
 
-old_NEWS_hash = 5ce999f299bd2e9f44cbfef49015b45f
+old_NEWS_hash = e043ee82ed8f0fdd75d0ba808730e689
 
 # Tell maint.mk's syntax-check rules that diff gets config.h directly or
 # via diff.h or system.h.
@@ -39,7 +39,7 @@ update-copyright-env = \
   UPDATE_COPYRIGHT_USE_INTERVALS=1 \
   UPDATE_COPYRIGHT_MAX_LINE_LENGTH=79
 
-include $(srcdir)/dist-check.mk
+-include $(srcdir)/dist-check.mk
 
 _cf_state_dir ?= .config-state
 _date_time := $(shell date +%F.%T)
@@ -60,5 +60,10 @@ config-save:
 	$(MAKE) --quiet config-compare > /dev/null 2>&1 \
 	  && { echo no change; exit 1; } || :
 	mkdir -p $(_cf_state_dir)/$(_date_time)
-	ln -nsf $(date_time) $(_cf_state_dir)/latest
+	ln -nsf $(_date_time) $(_cf_state_dir)/latest
 	cp lib/config.h config.status $(_cf_state_dir)/latest
+
+exclude_file_name_regexp--sc_space_tab = ^gl/lib/.*\.c\.diff$$
+
+# Tell gnulib's tight_scope rule that we mark externs with XTERN
+export _gl_TS_extern = extern|XTERN

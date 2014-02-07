@@ -1,3 +1,58 @@
+diffutils (1:3.2-6) unstable; urgency=low
+
+  * Forgot to update configure script after modifying m4/float_h.m4.
+
+ -- Santiago Vila <sanvila@debian.org>  Sun, 29 Apr 2012 21:30:06 +0200
+
+diffutils (1:3.2-5) unstable; urgency=low
+
+  * The previous change didn't work. Fix it the right way: Applied patch
+    by Bruno Haible (taken from gnulib) fixing powerpc float issues.
+
+ -- Santiago Vila <sanvila@debian.org>  Sun, 29 Apr 2012 17:06:46 +0200
+
+diffutils (1:3.2-4) unstable; urgency=medium
+
+  * Modified gnulib-tests/Makefile.in to disable test-float,
+    as it fails on powerpc.
+
+ -- Santiago Vila <sanvila@debian.org>  Sun, 29 Apr 2012 14:53:14 +0200
+
+diffutils (1:3.2-3) unstable; urgency=low
+
+  * Switch to dh. Should hopefully cross-build from source now.
+    Closes: #664270.
+
+ -- Santiago Vila <sanvila@debian.org>  Thu, 12 Apr 2012 20:20:46 +0200
+
+diffutils (1:3.2-2) unstable; urgency=low
+
+  * Dropped dummy "diff" binary package.
+  * Build with hardened flags. Closes: #653853.
+
+ -- Santiago Vila <sanvila@debian.org>  Sat, 03 Mar 2012 13:31:40 +0100
+
+diffutils (1:3.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Manual license is now GFDL without cover or back texts, which means
+    we can generate diffutils-doc from this source package again.
+  * Moved info manual to diffutils. Now diffutils-doc has only HTML.
+  * However, no need to add Replaces: diffutils-doc (<= 2.8.1-14)
+    to diffutils, as old diff.info is now diffutils.info.
+  * Info manual now clearly states that regular expressions are
+    to be considered `grep'-style. Closes: #287682.
+  * Fixed cmp manpage where it wrongly suggested "info diff" instead
+    of "info cmp". Closes: #434214.
+  * Manpage has improved a bit about format options. Closes: #547691.
+  * Recursive diff now avoids printing excess slashes in concatenated
+    file names. Closes: #586301.
+  * Behaviour of --ignore-all-space has been clarified about what
+    is to be considered "white space". Closes: #613319.
+  * Fixed reporting of spurious differences. Closes: #633978.
+
+ -- Santiago Vila <sanvila@debian.org>  Sun, 16 Oct 2011 16:47:44 +0200
+
 diffutils (1:3.0-1) unstable; urgency=low
 
   * New upstream release.

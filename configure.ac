@@ -1,6 +1,6 @@
 # Configure template for GNU Diffutils.
 
-# Copyright (C) 1994-1995, 1998, 2001-2002, 2004, 2006, 2009-2010 Free Software
+# Copyright (C) 1994-1995, 1998, 2001-2002, 2004, 2006, 2009-2011 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,6 @@ AM_MISSING_PROG([HELP2MAN], [help2man])
 AC_PROG_RANLIB
 gl_EARLY
 gl_USE_SYSTEM_EXTENSIONS
-AC_SYS_LARGEFILE
 gl_INIT
 
 AC_ARG_ENABLE([gcc-warnings],
@@ -144,12 +143,25 @@ fi
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_FORK
 
+# When .tarball-version exists, we're building from a tarball
+# and must not make man/*.1 files depend on the generated src/version.c,
+# because that would induce a requirement to run the help2man perl script.
+# We are not yet prepared to make perl a build-from-tarball requirement.
+# Hence, here we detect .tarball-version existence.  When not present,
+# we define a variable to be used in man/Makefile.am to induce the
+# proper dependency (so that man/*.1 will be rebuilt upon any version change),
+# but not when built from a tarball.
+AC_SUBST([SRC_VERSION_C])
+test -f $srcdir/.tarball-version \
+  && SRC_VERSION_C= \
+  || SRC_VERSION_C=../src/version.c
+
 AM_GNU_GETTEXT([external], [need-ngettext])
 AM_GNU_GETTEXT_VERSION([0.17])
 XGETTEXT="AWK='$AWK' \$(SHELL) \$(top_srcdir)/exgettext $XGETTEXT"
 
 AC_CONFIG_FILES([
-  Makefile
+  Makefile doc/Makefile
   lib/Makefile
   src/Makefile
   tests/Makefile
