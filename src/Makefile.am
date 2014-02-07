@@ -1,6 +1,6 @@
 # Automakefile for GNU diffutils programs.
 
-# Copyright (C) 2001-2002, 2006, 2009-2010 Free Software Foundation, Inc.
+# Copyright (C) 2001-2002, 2006, 2009-2011 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,14 +17,13 @@
 
 bin_PROGRAMS = cmp diff diff3 sdiff
 
-noinst_HEADERS = system.h
-
 localedir = $(datadir)/locale
 
 AM_CPPFLAGS = -I../lib -I$(top_srcdir)/lib
 AM_CFLAGS = $(WARN_CFLAGS) $(WERROR_CFLAGS)
 
 LDADD = \
+  libver.a \
   ../lib/libdiffutils.a \
   $(LIBCSTACK) \
   $(LIBINTL) \
@@ -41,8 +40,9 @@ cmp_SOURCES = cmp.c
 diff3_SOURCES = diff3.c
 sdiff_SOURCES = sdiff.c
 diff_SOURCES = \
-  analyze.c context.c diff.c diff.h dir.c ed.c ifdef.c io.c \
+  analyze.c context.c diff.c dir.c ed.c ifdef.c io.c \
   normal.c side.c util.c
+noinst_HEADERS = diff.h system.h
 
 MOSTLYCLEANFILES = paths.h paths.ht
 
@@ -53,3 +53,24 @@ BUILT_SOURCES = paths.h
 paths.h: Makefile.am
 	$(AM_V_GEN)(echo '#define DEFAULT_DIFF_PROGRAM "'$(gdiff)'"' && \
 	  echo '#define LOCALEDIR "$(localedir)"') >$@t && mv $@t $@
+
+noinst_LIBRARIES = libver.a
+nodist_libver_a_SOURCES = version.c version.h
+
+BUILT_SOURCES += version.c
+version.c: Makefile
+	$(AM_V_GEN)rm -f $@
+	$(AM_V_at)printf '#include <config.h>\n' > $@t
+	$(AM_V_at)printf 'char const *Version = "$(PACKAGE_VERSION)";\n' >> $@t
+	$(AM_V_at)chmod a-w $@t
+	$(AM_V_at)mv $@t $@
+
+BUILT_SOURCES += version.h
+version.h: Makefile
+	$(AM_V_GEN)rm -f $@
+	$(AM_V_at)printf 'extern char const *Version;\n' > $@t
+	$(AM_V_at)chmod a-w $@t
+	$(AM_V_at)mv $@t $@
+
+DISTCLEANFILES = version.c version.h
+MAINTAINERCLEANFILES = $(BUILT_SOURCES)
