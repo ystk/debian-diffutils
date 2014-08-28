@@ -2,21 +2,19 @@
 
 package = diffutils
 
+export AM_UPDATE_INFO_DIR = no
+
 %:
 	dh $@
 
 override_dh_auto_clean:
 	[ ! -f Makefile ] || $(MAKE) distclean
-	rm -f doc/*.html
+	rm -rf doc/$(package)
 
 override_dh_auto_configure:
-	dh_auto_configure
+	dh_auto_configure -- --disable-silent-rules
 
 override_dh_installdocs:
-	cd doc && texi2html -split_chapter $(package).texi
-	dh_installdocs -i doc/*.html
+	cd doc && makeinfo --html --split=chapter $(package).texi
+	dh_installdocs -i doc/$(package)/*.html
 	dh_installdocs -a NEWS
-
-override_dh_link:
-	dh_link -i usr/share/doc/$(package)-doc/$(package)_toc.html \
-		usr/share/doc/$(package)-doc/index.html

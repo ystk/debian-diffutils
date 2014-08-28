@@ -1,3 +1,28 @@
+diffutils (1:3.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Switch from texi2html to makeinfo.
+  * Source tarball is now in xz format.
+  * Changed watch file to look for tar.xz sources.
+  * Added --disable-silent-rules to configure command line.
+  * Filenames with spaces are now allowed by diff. Closes: #99807.
+  * Improved description of -I option. Closes: #648411.
+
+ -- Santiago Vila <sanvila@debian.org>  Sat, 07 Sep 2013 14:43:28 +0200
+
+diffutils (1:3.2-8) unstable; urgency=low
+
+  * Added fix for gnulib compilation against eglibc 2.16, which no longer
+    declares gets by default. Closes: #693346.
+
+ -- Santiago Vila <sanvila@debian.org>  Sun, 24 Feb 2013 13:28:12 +0100
+
+diffutils (1:3.2-7) unstable; urgency=low
+
+  * Updated config.guess and config.sub for arm64. Closes: #688965, #689617.
+
+ -- Santiago Vila <sanvila@debian.org>  Thu, 04 Oct 2012 18:12:38 +0200
+
 diffutils (1:3.2-6) unstable; urgency=low
 
   * Forgot to update configure script after modifying m4/float_h.m4.
